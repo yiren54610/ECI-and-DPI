@@ -108,5 +108,5 @@ chart <- ggplot(df_long,aes(x = date, y = Amount)) +
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5, size = 12)) 
 
-ggsave("In_One_Chart.pdf")
+ggsave("In_One_Chart.png")
 
