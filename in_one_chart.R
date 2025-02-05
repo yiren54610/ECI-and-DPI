@@ -93,10 +93,10 @@ chart <- ggplot(df_long,aes(x = date, y = Amount)) +
              yintercept = 0, 
              color = "red", 
              linewidth = .8,
-             alpha=.6) +
+             alpha = ifelse(Category == "DSPI", 0, 0.6)) +
   labs(title = "Post-COVID Reality: Income Rises But Pessimism Lingers",
        subtitle = "Comparing Real Disposable Personal Income (DSPI) to the Economic 
-       Confidence Index During Trump's Final Administration and Biden's Administration",
+       Confidence Index During Trump's Last Administration and Biden's Administration",
        fill = "Presidency",
        x = NULL,
        y = NULL) +
@@ -106,7 +106,13 @@ chart <- ggplot(df_long,aes(x = date, y = Amount)) +
   scale_fill_manual(values = c("Trump" = "lightcoral", "Biden" = "lightblue")) +
   theme(legend.position = "bottom",
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
-        plot.subtitle = element_text(hjust = 0.5, size = 12)) 
+        plot.subtitle = element_text(hjust = 0.5, size = 12)) +
+  annotate("text", x = 2020-03-01:2020-04-01, y = 25, 
+           label = "First lockdown on March 16th in US",
+           parse=TRUE)
+
+chart
 
 ggsave("In_One_Chart.png")
+
 
