@@ -71,6 +71,10 @@ df_long$Category <- factor(df_long$Category,
                            labels = c("People's confidence towards the economy tanked after covid.", 
                                       "but real incomes were rising the whole time."))
 
+lockdown <- as.Date('2020-03-16')
+
+interpolated_y <- approx(df_long$date, df_long$Amount, xout = lockdown, rule = 2)$y
+
 # Combined Graph
 chart2 <-ggplot(df_long,aes(x = date, y = Amount)) +
   geom_rect(data = presidents, 
@@ -80,10 +84,12 @@ chart2 <-ggplot(df_long,aes(x = date, y = Amount)) +
             inherit.aes = FALSE) +
   # ECI first
   geom_line(data = subset(df_long, Category == "ECI"), 
-            aes(color = Category), 
+            aes(color = ifelse(Amount > 0, "grey", "red")), 
             linewidth = 1,
             show.legend = FALSE,
             na.rm = TRUE) +
+  geom_point(data = subset(df_long, Category == "People's confidence towards the economy tanked after covid."),
+             aes(x = lockdown, y = 24), color = "red", size = 3)+
   # DSPI second
   geom_line(data = subset(df_long, Category != "ECI"), 
             aes(color = Category), 
@@ -113,10 +119,10 @@ chart2 <-ggplot(df_long,aes(x = date, y = Amount)) +
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5, size = 12)) +
   geom_text(data = subset(df_long, Category == "People's confidence towards the economy tanked after covid."), 
-            aes(x = as.Date("2020-03-16"), y = 20), 
+            aes(x = as.Date("2020-03-16"), y = 25), 
            label = "First lockdown in US on March 16, 2020", 
            color = "azure4", size = 2, hjust = 0, vjust = -1)
-
+chart2
 
 ggsave("In_One_Chart2.png")
 
