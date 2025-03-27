@@ -11,6 +11,7 @@ require("ggplot2")
 setwd("~/Documents/r-studio/in_one_chart")
 
 ECI = read.csv('DSPI(U.S. Bureau of Economic Analysi) - DSPI.csv')
+CPI = read.csv('CPI.csv')
 
 # explore: ECI dot plot
 ggplot(ECI) +
@@ -20,6 +21,14 @@ ggplot(ECI) +
         legend.position = "none") +
   labs(title = 'Economic Confidence Index (trend)', 
        subtitle = "ECI change from Trump's first administration to Biden's administration")
+
+# explore: CPI
+CPI$date <- as.Date(CPI$Month,format = "%b /%Y")
+  
+ggplot(CPI) +
+  aes(x=Month, y= All.items) +
+  geom_line()
+
 
 # explore: ECI vs DSPI
 ggplot(ECI) +
